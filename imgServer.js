@@ -27,7 +27,7 @@ async function fileToGenerativePart(fileBuffer, mimeType) {
 }
 
 // Define a POST endpoint
-app.post("/generate", upload.single("image"), async (req, res) => {
+app.post("/vision", upload.single("image"), async (req, res) => {
   try {
     const file = req.file; // Access the uploaded file
 
