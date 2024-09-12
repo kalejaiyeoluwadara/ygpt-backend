@@ -1,9 +1,10 @@
+require("dotenv").config();
 const {
   GoogleGenerativeAI,
   GenerativeModel,
 } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI("AIzaSyAWBO048BkNduNdzX-vRZqIUpWYoAc1cFY");
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 async function run() {
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });

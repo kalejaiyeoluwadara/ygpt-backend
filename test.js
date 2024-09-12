@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const {
   GoogleGenerativeAI,
@@ -7,7 +8,7 @@ const {
 const app = express();
 const port = process.env.PORT || 3000;
 
-const genAI = new GoogleGenerativeAI("AIzaSyAWBO048BkNduNdzX-vRZqIUpWYoAc1cFY");
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 app.use(express.json());
 
