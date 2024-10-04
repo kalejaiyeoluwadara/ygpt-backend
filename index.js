@@ -1,18 +1,22 @@
 require("dotenv").config();
-const {
-  GoogleGenerativeAI,
-  GenerativeModel,
-} = require("@google/generative-ai");
+const express = require("express");
+const cors = require("cors");
+const visionRoutes = require("./router/vision");
+const fileRoutes = require("./router/fileRoutes");
+const app = express();
+const port = process.env.PORT || 5000;
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+// Enable CORS for all routes
+app.use(cors());
 
-async function run() {
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const prompt = "Hi there";
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-}
+// Enable JSON parsing
+app.use(express.json());
 
-run();
+// Setup routes
+app.use("/vision", visionRoutes);
+app.use("/studypal", fileRoutes);
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
