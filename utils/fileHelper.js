@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const pdfParse = require("pdf-parse");
 const mammoth = require("mammoth");
 
@@ -24,18 +23,16 @@ exports.extractTextFromFile = async (file) => {
     textContent = result.value;
   } else if (file.mimetype === "text/plain") {
     textContent = fs.readFileSync(file.path, "utf8");
+  } else if (
+    file.mimetype ===
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+    file.mimetype === "application/vnd.ms-powerpoint"
+  ) {
+    // Return a message indicating that .ppt and .pptx files are not accepted
+    textContent = "unsopported file";
   } else {
-    throw new Error("Unsupported file type");
+    textContent = "unsopported file";
   }
 
   return textContent;
-};
-// Converts file buffer to the required generative part format
-exports.fileToGenerativePart = async (fileBuffer, mimeType) => {
-  return {
-    inlineData: {
-      data: fileBuffer.toString("base64"),
-      mimeType: mimeType,
-    },
-  };
 };

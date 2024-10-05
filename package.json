@@ -18,6 +18,9 @@
     "mammoth": "^1.8.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7",
-    "pdf-parse": "^1.1.1"
+    "officeparser": "^4.1.1",
+    "pdf-parse": "^1.1.1",
+    "pptx2json": "^0.0.10",
+    "textract": "^2.5.0"
   }
 }

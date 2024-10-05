@@ -1,37 +1,52 @@
-require("dotenv").config();
 const express = require("express");
-const {
-  GoogleGenerativeAI,
-  GenerativeModel,
-} = require("@google/generative-ai");
+const multer = require("multer");
+const pptx2json = require("pptx2json");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-
-app.use(express.json());
-
-app.post("/generate", async (req, res) => {
-  try {
-    const { prompt } = req.body;
-
-    if (!prompt) {
-      return res.status(400).json({ error: "Prompt is required" });
-    }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = await response.text();
-
-    res.json({ text });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "An error occurred while generating text" });
-  }
+// Set up Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Store files in the 'uploads' directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Save file with a timestamp
+  },
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+const upload = multer({ storage });
+
+// Endpoint to upload and extract text from .ppt/.pptx files
+app.post("/upload", upload.single("pptFile"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
+  const filePath = req.file.path;
+
+  // Use pptx2json to extract content from the .pptx/.ppt file
+  pptx2json(filePath)
+    .then((data) => {
+      // Extract text from the slides
+      const extractedText = data.map((slide) => slide.text).join(" ");
+
+      // Send extracted text as response
+      res.send({ extractedText });
+
+      // Delete the file after processing
+      fs.unlink(filePath, (err) => {
+        if (err) console.error("Error deleting file:", err);
+      });
+    })
+    .catch((err) => {
+      res.status(500).send("Error extracting text from file.");
+    });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
