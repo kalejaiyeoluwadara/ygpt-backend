@@ -13,6 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 // Setup routes
+app.get("/", (req, res) => {
+  res.send(`<h1>Welcome to YGPT</h1>`);
+});
 app.use("/vision", visionRoutes);
 app.use("/studypal", fileRoutes);
 

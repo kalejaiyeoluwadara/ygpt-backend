@@ -35,5 +35,70 @@ const sendToGeminiAPI = async (textContent) => {
     throw new Error("An error occurred while generating the summary.");
   }
 };
+const Tips = async (textContent) => {
+  try {
+    // Descriptive system prompt for summarizing educational material
+    const prompt = `
+  Based on the following academic content, generate practical reading tips that help students focus on the most important concepts, key points, and critical details.
+  These tips should assist in better comprehension, retention of information, and efficient studying.
+  Provide actionable advice for how to approach reading and reviewing this content:
 
-module.exports = { sendToGeminiAPI };
+  "Generate reading tips from: ${textContent}"
+`;
+    // Choose the Gemini model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+    // Generate a summary using the Gemini model and the descriptive prompt
+    const result = await model.generateContent([prompt]);
+
+    // Return the summarized text
+    return result.response.text();
+  } catch (error) {
+    console.error("Error sending content to Gemini API:", error);
+    throw new Error("An error occurred while generating the summary.");
+  }
+};
+const Note = async (textContent) => {
+  try {
+    // Descriptive system prompt for summarizing educational material
+    const prompt = `
+  Create a concise short note from the following content that captures the essential points and key concepts. The note should be brief, easy to understand, and highlight the most important information for quick reference or revision:
+
+
+  "Generate short note from: ${textContent}"
+`;
+    // Choose the Gemini model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+    // Generate a summary using the Gemini model and the descriptive prompt
+    const result = await model.generateContent([prompt]);
+
+    // Return the summarized text
+    return result.response.text();
+  } catch (error) {
+    console.error("Error sending content to Gemini API:", error);
+    throw new Error("An error occurred while generating the summary.");
+  }
+};
+const Quiz = async (textContent) => {
+  try {
+    // Descriptive system prompt for summarizing educational material
+    const prompt = `
+ Create a quiz based on the following academic content. The quiz should include a variety of question types, such as multiple-choice, true/false, and short answer, to assess comprehension of key concepts and important details. Ensure that the questions challenge students' understanding and encourage critical thinking related to the material:
+ ${textContent}"
+`;
+    // Choose the Gemini model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+    // Generate a summary using the Gemini model and the descriptive prompt
+    const result = await model.generateContent([prompt]);
+
+    // Return the summarized text
+    return result.response.text();
+  } catch (error) {
+    console.error("Error sending content to Gemini API:", error);
+    throw new Error("An error occurred while generating the summary.");
+  }
+};
+
+module.exports = { sendToGeminiAPI, Tips, Quiz, Note };

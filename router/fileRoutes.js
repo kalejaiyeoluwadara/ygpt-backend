@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { processFile } = require("../controllers/fileController");
+const { summary, note, quiz, tips } = require("../controllers/fileController");
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
 // Define the POST route for file uploads
-router.post("/summarise", upload.single("file"), processFile);
+router.post("/summarise", upload.single("file"), summary);
+router.post("/note", upload.single("file"), note);
+router.post("/quiz", upload.single("file"), quiz);
+router.post("/tips", upload.single("file"), tips);
 
 module.exports = router;
