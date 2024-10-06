@@ -27,7 +27,7 @@ exports.summary = async (req, res) => {
     const geminiResponse = await sendToGeminiAPI(textContent);
 
     // Respond with the Gemini API result
-    res.json(geminiResponse);
+    res.json({ response: geminiResponse });
   } catch (error) {
     console.error("Error processing file:", error);
     res.status(500).json({ error: "Error processing file" });
