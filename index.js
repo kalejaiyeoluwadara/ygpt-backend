@@ -5,7 +5,7 @@ const visionRoutes = require("./router/vision");
 const fileRoutes = require("./router/fileRoutes");
 const app = express();
 const port = process.env.PORT || 5000;
-
+const audioRoutes = require("./router/audioRoute");
 // Enable CORS for all routes
 app.use(cors());
 
@@ -18,7 +18,10 @@ app.get("/", (req, res) => {
 });
 app.use("/vision", visionRoutes);
 app.use("/studypal", fileRoutes);
-
+app.use("/audio", audioRoutes);
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message });
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
