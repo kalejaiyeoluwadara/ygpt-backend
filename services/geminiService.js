@@ -84,7 +84,7 @@ const Quiz = async (textContent) => {
   try {
     // Descriptive system prompt for summarizing educational material
     const prompt = `
- Create a quiz based on the following academic content. The quiz should be multiple choice questions to assess comprehension of key concepts and important details. Ensure that the questions challenge students' understanding and encourage critical thinking related to the material, give the answers below the quiz:
+ Create a quiz based on the following academic content. The quiz should be as many multiple choice questions as possible, to assess comprehension of key concepts and important details. Ensure that the questions challenge students' understanding and encourage critical thinking related to the material, give the answers below the quiz:
  ${textContent}"
 `;
     // Choose the Gemini model
