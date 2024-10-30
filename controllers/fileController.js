@@ -7,7 +7,7 @@ const {
   Tips,
 } = require("../services/geminiService");
 
-const truncateText = (text, limit = 1500) => {
+const truncateText = (text, limit = 5000) => {
   const words = text.split(/\s+/); // Split by whitespace
   return words.slice(0, limit).join(" ");
 };
