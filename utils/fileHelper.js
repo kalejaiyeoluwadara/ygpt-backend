@@ -3,6 +3,21 @@ const pdfParse = require("pdf-parse");
 const mammoth = require("mammoth");
 
 /**
+ * Converts a file buffer to the format expected by the Gemini API
+ * @param {Buffer} fileBuffer - The file buffer
+ * @param {string} mimeType - The MIME type of the file
+ * @returns {Object} - Object in the format expected by Gemini API
+ */
+exports.fileToGenerativePart = async (fileBuffer, mimeType) => {
+  return {
+    inlineData: {
+      data: fileBuffer.toString("base64"),
+      mimeType: mimeType,
+    },
+  };
+};
+
+/**
  * Extracts text content from a given file based on its MIME type.
  * @param {Object} file - The file object uploaded by the user.
  * @returns {Promise<string>} - Extracted text content.

@@ -1,6 +1,9 @@
 const express = require("express");
 const multer = require("multer");
-const { processImage } = require("../controllers/visionController");
+const {
+  processImage,
+  identifyItem,
+} = require("../controllers/visionController");
 
 const router = express.Router();
 
@@ -10,5 +13,6 @@ const upload = multer({ storage });
 
 // Define the POST route for /vision
 router.post("/summarise", upload.single("image"), processImage);
+router.post("/identify", upload.single("image"), identifyItem);
 
 module.exports = router;
