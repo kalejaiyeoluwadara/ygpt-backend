@@ -71,7 +71,16 @@ exports.identifyItem = async (req, res) => {
 
     // Try to parse the response as JSON
     try {
-      const parsedResponse = JSON.parse(responseText);
+      // First, try to extract JSON from markdown code blocks if present
+      let jsonText = responseText;
+      const codeBlockMatch = responseText.match(
+        /```(?:json)?\s*(\{[\s\S]*?\})\s*```/
+      );
+      if (codeBlockMatch) {
+        jsonText = codeBlockMatch[1];
+      }
+
+      const parsedResponse = JSON.parse(jsonText);
 
       // Validate the response structure
       if (parsedResponse.itemname && parsedResponse.description) {
