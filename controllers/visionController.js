@@ -18,7 +18,7 @@ exports.processImage = async (req, res) => {
       "Identify the item in the image and respond in Yoruba. If the item is not identifiable, send a message saying so.";
 
     // Choose a Gemini model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Convert file to generative part
     const filePart = await fileToGenerativePart(file.buffer, file.mimetype);
@@ -60,7 +60,7 @@ exports.identifyItem = async (req, res) => {
     Ensure your response is valid JSON.`;
 
     // Choose a Gemini model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Convert file to generative part
     const filePart = await fileToGenerativePart(file.buffer, file.mimetype);
